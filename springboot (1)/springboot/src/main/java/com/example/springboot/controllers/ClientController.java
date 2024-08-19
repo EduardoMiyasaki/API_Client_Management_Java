@@ -29,12 +29,12 @@ public class ClientController {
     // no product Repository tem métodos default e esse productRespository que vai o productModel salvar no banco
 
     @PostMapping("/clients")
-    public ResponseEntity<ClientModel> saveClient(@RequestBody @Valid ClientRecordDto clientRecordDto){
+    public ResponseEntity<ClientModel> saveClient(@RequestBody @Valid ClientRecordDto clientRecordDto) {
 
         // Instanciando um Client model
         var clientModel = new ClientModel();
         // fazendo a conversão de Dto para model
-        BeanUtils.copyProperties(clientRecordDto , clientModel);
+        BeanUtils.copyProperties(clientRecordDto, clientModel);
         // salvando o produto
         return ResponseEntity.status(HttpStatus.CREATED).body(clientRepository.save(clientModel));
     }
@@ -44,7 +44,7 @@ public class ClientController {
     // return ResponseEntity.status(HttpStatus.OK).body(productRepository.findAll());
 
     @GetMapping("/clients")
-    public ResponseEntity<List<ClientModel>> getAllClients(){
+    public ResponseEntity<List<ClientModel>> getAllClients() {
 
         return ResponseEntity.status(HttpStatus.OK).body(clientRepository.findAll());
     }
@@ -53,10 +53,10 @@ public class ClientController {
     // @PathVariable serve para você receber o id e ele ser passado pros parâmetros da função
 
     @GetMapping("/clients/{id}")
-    public ResponseEntity<Object> getOneClient(@PathVariable(value="id")UUID id){
+    public ResponseEntity<Object> getOneClient(@PathVariable(value = "id") UUID id) {
 
         Optional<ClientModel> client0 = clientRepository.findById(id);
-        if(client0.isEmpty()){
+        if (client0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client not found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(client0.get());
@@ -64,27 +64,27 @@ public class ClientController {
 
     // update
     @PutMapping("/clients/{id}")
-    public ResponseEntity<Object> updateClient(@PathVariable(value="id")UUID id,
-                                               @RequestBody @Valid ClientRecordDto clientRecordDto){
+    public ResponseEntity<Object> updateClient(@PathVariable(value = "id") UUID id,
+                                               @RequestBody @Valid ClientRecordDto clientRecordDto) {
 
         Optional<ClientModel> client0 = clientRepository.findById(id);
 
-        if(client0.isEmpty()){
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client not found");
+        if (client0.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client not found");
         }
 
         var clientModel = client0.get();
-        BeanUtils.copyProperties(clientRecordDto , clientModel);
+        BeanUtils.copyProperties(clientRecordDto, clientModel);
         return ResponseEntity.status(HttpStatus.OK).body(clientRepository.save(clientModel));
     }
 
     @DeleteMapping("/clients/{id}")
-    public ResponseEntity<Object> deleteClient(@PathVariable(value="id")UUID id){
+    public ResponseEntity<Object> deleteClient(@PathVariable(value = "id") UUID id) {
 
         // Procurando o id na base dados
         Optional<ClientModel> client0 = clientRepository.findById(id);
 
-        if(client0.isEmpty()){
+        if (client0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client not found");
         }
 
